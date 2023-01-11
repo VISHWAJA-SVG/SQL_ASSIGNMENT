@@ -70,7 +70,7 @@ Create table dept(did int,dname varchar(10),loc varchar(10),primary key(did));
 ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 =>insert into dept values(20, 'ACCOUNTING', 'INDIA'),(10, 'RESEARCH', 'PUNE'),(5, 'SALES', 'MUMBAI'),(30, 'OPERATIONS', 'LATUR');
-=>CREATE TABLE emp(eid int primary key,ename varchar(10),joined date,salary decimal(12,2),mngid int,mname varchar(10),did int foreign key(did) references dept(did));
+=>CREATE TABLE emp(eid int primary key,ename varchar(10),joined date,salary decimal(12,2),mngid int,mname varchar(10),did int foreign key);
 =>insert into emp values(2011,'ASHA','2004-03-03',20000.00,9211,'Manisha',1);
 =>insert into emp values(2010,'VISHU','2004-04-08',20000.00,9211,'Manisha',1);
 insert into emp values(2011,'PRIYA','2004-12-09',20000.00,9214,'Pooja',5);
@@ -175,15 +175,16 @@ where pname='Exotic LIQUIDS';
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
 Display the employee details whose joined at first
 
-Select *
-FROM employees
-Order By JoinDate;
-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
 Display the employee details whose joined at recently
 
-Select *
-FROM employees
-Order By JoinDate;
+Select top 1 *
+FROM emp
+Order By joined ;
+
+Select top 1 *
+FROM emp
+Order By joined desc;
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 Write a query to get most expense and least expensive product list(name and unit price)
  

@@ -1,0 +1,225 @@
+
+
+=> CREATE DATABASE Customer_Order;
+=> use Customer_Order;
+=> CREATE TABLE Customer(ID int,FName varchar(50) NOT NULL,LName varchar(50),City varchar(50),Country varchar(20),Phone varchar(20),PRIMARY KEY (ID));
+=> INSERT INTO Customer VALUES (101, 'Vishwaja','Sanjekar','Osmanabad',7522919828),(102,'Shital','Jadhav','Pune','India',9011855065),(103, 'Jagruti','Patil','Pune','7522932128),(104, 'Sneha','Barapatre','Nagpur',8765432190);
+=> CREATE INDEX indexCustomerName
+ON Customer (fname,Lname);
+=> CREATE TABLE Orders(ID int, OrderDate datetime,OrderName varchar(10),FOREIGN KEY (ID) REFERENCES Customer(ID),TotalAmount decimal(12,2),PRIMARY KEY (ID));
+=> CREATE INDEX indexOrderCustomerId
+ON Orders(Id);
+=> CREATE INDEX indexOrderDate
+ON Orders (OrderDate);
+=> INSERT INTO Customer VALUES (1011,18-06-12 10:34:09 AM
+=> DROP TABLE Orders;
+=> CREATE TABLE Orders (ID int,OrderDate Date NOT NULL,OrderName varchar(10),FOREIGN KEY (ID) REFERENCES Customer (ID),TotalAmount decimal(12,2),PRIMARY KEY (ID)) ;
+=> SELECT * FROM Customer
+WHERE (Country Like 'a%') OR (Country Like 'i%');
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+=>CREATE TABLE Orders(OID int, OrderDate date NOT NULL,OrderName varchar(10),TotalAmount decimal(12,2),ID int FOREIGN KEY REFERENCES Customer(ID),PRIMARY KEY(ID));
+=>DROP TABLE Orders;
+=>CREATE TABLE Orders(OID int, OrderDate date NOT NULL,OrderName varchar(10),TotalAmount decimal(12,2),ID int FOREIGN KEY REFERENCES Customer(ID),PRIMARY KEY(ID));
+=>CREATE INDEX indexOrderCustomerID
+ON Orders (Id);
+=>CREATE INDEX indexOrderOrderDate
+ON Orders (OrderDate);
+=>INSERT INTO Orders VALUES (1011,'2008-11-11','ABCD',2002.00,101);
+SELECT * FROM Orders;
+=>INSERT INTO Orders VALUES (1012,'2008-11-11','EFGH',2002.00,101);
+=>INSERT INTO Orders VALUES (1014,'2022-12-13','IJKL',2002.00,103);
+=>INSERT INTO Orders VALUES (1015,'2023-12-13','MNOP',2002.00,104);
+=>INSERT INTO Orders VALUES (1017,'2024-10-13','QRST',2002.00,105);
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+=>CREATE TABLE Product(PID int,PName varchar(50),UnitPrice decimal(12,2),Package varchar(30),IsDiscontinued bit,PRIMARY KEY (PID));
+N Orders (Id);
+=>CREATE INDEX indexProductSupplierID
+ON Product (PID);
+=>CREATE INDEX indexProductName
+ON Product (PName);
+=>INSERT INTO Product VALUES(2110,'Exotic LIQUIDS',15.00,'handwash',1);
+=>INSERT INTO Product VALUES(2111,'Starfish',18.00,'SeaFood',1);
+=>INSERT INTO Product VALUES(2112,'TeaPowder',10.00,'Drink',1);
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+=>CREATE TABLE OrderItem(ORID int,OID int FOREIGN KEY REFERENCES Orders(OID),ID int FOREIGN KEY REFERENCES Customer(ID),UnitPrice decimal(12,2),Quantity int);
+=> CREATE INDEX indexOrderItemOrderid
+ON OrderItem(ID);
+CREATE INDEX indexOrderItemProductid
+ON OrderItem(OID);
+
+INSERT INTO OrderItem VALUES(2001,1012,102,15.30,9);
+INSERT INTO OrderItem VALUES(2003,1014,104,17.20,10);
+INSERT INTO OrderItem VALUES(2112,1014,103,10,8);
+INSERT INTO OrderItem VALUES(2111,1012,102,18,9);
+INSERT INTO OrderItem VALUES(2002,1015,104,18.2,8);
+
+SELECT * FROM Orderitem;
+SELECT * FROM Customer
+
+WHERE FName Like '__i%';
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Create table for some queries related to employee ,manager
+
+=> Create database Emp_Dep;
+use Emp_Dep;
+Create table dept(did int,dname varchar(10),loc varchar(10),primary key(did));
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+=>insert into dept values(20, 'ACCOUNTING', 'INDIA'),(10, 'RESEARCH', 'PUNE'),(5, 'SALES', 'MUMBAI'),(30, 'OPERATIONS', 'LATUR');
+=>CREATE TABLE emp(eid int primary key,ename varchar(10),joined date,salary decimal(12,2),mngid int,mname varchar(10),did int foreign key(did) references dept(did));
+=>insert into emp values(2011,'ASHA','2004-03-03',20000.00,9211,'Manisha',1);
+=>insert into emp values(2010,'VISHU','2004-04-08',20000.00,9211,'Manisha',1);
+insert into emp values(2011,'PRIYA','2004-12-09',20000.00,9214,'Pooja',5);
+insert into emp values(2012,'PRACHI','2004-03-03',20000.00,9214,'Pooja',1);
+insert into emp values(2013,'MEENA','2004-03-03',20000.00,9216,'Jay',1);
+
+Select * from dept
+Select * from emp
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Display the full name of customer
+
+=> SELECT CONCAT(FName,' ',LName) AS Fullname
+   FROM Customer;
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+Display customer details who has Fax no.
+
+=> SELECT * FROM Customer
+Where Fax_no <> 0;
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+Display customer details whose name holds second letter as u
+=> SELECT * FROM Customer
+WHERE FName Like '__u%';
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+select orders Details where unit price is greater than 10 and less than 20
+
+=> select *
+from Orders inner join OrderItem
+on Orders.OID=OrderItem.OID
+where OrderItem.UnitPrice >10 AND OrderItem.UnitPrice<20;
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+Display order details which contain shipping date and arrange the order by date
+
+select *
+from Orders
+order by OrderDate;
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+Print the orders shipped by shipname 'La corned'abondance'between 2 dates(Choose dates of yourchoice)
+ 
+select *
+from Orders
+where Orderdate between '2008-11-11' AND '2022-12-13';
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+Print the products supplied by 'Exotic Liquids'
+Select PName
+from Product
+where PName='Exotic LIQUIDS';
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+Print  the average quantity ordered for every product
+
+Select avg(quantity)AS AVG,PName
+from OrderItem Left Join Product
+On OrderItem.PID = Product.PID
+Group by PName;
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+Print the total price of orders which have ...
+select sum(price)
+from Orders Inner Join OrderItem Inner Join Product
+On Orders.OID = OrderItem.OID AND OrderItem.PID = Product.PID
+where pname="Exotic Liquids';
+
+select sum(price) AS Total price
+From Orders
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Write a query to displaythe orders placed by customer with phone number 030-0074321
+Select *
+From Orders Left Join Customer
+On Orders.Id=Customer.Id
+where Phone = 9102445670;
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+fetching all the products which are avilable under category 'SeaFood'
+=> Select *
+from Product
+where Package Is SeaFood;
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+Display the orders placed by customers not in london
+=> select OID,OrderDate,OrderName,TotalAmount
+from Orders Inner Join Customer 
+On Orders.ID = Customer.ID
+where Country <> 'London;
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+select all the order which are placed for the product Drink
+=> Select *
+from Product
+where package='Drink';
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+Write a query to display the name ,department name and rating of any given employee
+Select emp.ename,dept.dname
+from emp inner join dept
+ON emp.id = dept.did;
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+Print the total price of orders which have the products supplied by 'Exotic LIQUIDS'if the price is > 50 and also print it by shipping company name
+=> select sum(price)
+From Orders Inner Join OrderItem Inner Join Product
+On Orders.OID = OrderItem.OID AND OrderItem.PID = Product.PID
+where pname='Exotic LIQUIDS';
+
+ select sum(price) as Total price
+ from orders
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+Display the employee details whose joined at first
+
+Select *
+FROM employees
+Order By JoinDate;
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+Display the employee details whose joined at recently
+
+Select *
+FROM employees
+Order By JoinDate;
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+Write a query to get most expense and least expensive product list(name and unit price)
+ 
+select Top(1) UnitPrice,pname
+From Product
+Order By UnitPrice;
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+Display the list of products that are out of stock
+Select PName
+from Product
+where stock = Null;
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+Display complete list of customers ,the orderID and date of aany orders they have made 
+Select * ,OID,OrderDate
+from Orders Inner join Customer
+On Orders.Id = Customer.Id;
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+Write query that determines the customer who has placed the maximum no. of orders
+
+Select ID,FName,Max(OrderNumber)
+from Orders Inner Join Customer
+On Orders.Id = Customer.Id;
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+Display the customerid whose name has substring 'RA'
+Select Id
+from Customer
+where SUBSTRING(FName,LEN(FName),2)='RA';
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+Display the first word of all the company name 
+
+=> SELECT name
+from EMP
+where SUBSTRING(name,LEN(name),2);
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
